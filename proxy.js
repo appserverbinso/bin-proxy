@@ -13,7 +13,11 @@ app.get('/bin/:bin', async (req, res) => {
     const apis = [
         // 1. bincheck.io
         async () => {
-            const r = await fetch(`https://bincheck.io/details/${bin}`);
+            const r = await fetch(`https://bincheck.io/details/${bin}`, {
+                headers: {
+                    'User-Agent': 'bin-proxy-render/1.0'
+                }
+            });
             if (!r.ok) throw new Error("bincheck.io falló");
             const d = await r.json();
             return {
@@ -27,7 +31,11 @@ app.get('/bin/:bin', async (req, res) => {
 
         // 2. binlist.net
         async () => {
-            const r = await fetch(`https://lookup.binlist.net/${bin}`);
+            const r = await fetch(`https://lookup.binlist.net/${bin}`, {
+                headers: {
+                    'User-Agent': 'bin-proxy-render/1.0'
+                }
+            });
             if (!r.ok) throw new Error("binlist.net falló");
             const d = await r.json();
             return {
@@ -41,7 +49,11 @@ app.get('/bin/:bin', async (req, res) => {
 
         // 3. binlistapi.herokuapp.com
         async () => {
-            const r = await fetch(`https://binlistapi.herokuapp.com/api/${bin}`);
+            const r = await fetch(`https://binlistapi.herokuapp.com/api/${bin}`, {
+                headers: {
+                    'User-Agent': 'bin-proxy-render/1.0'
+                }
+            });
             if (!r.ok) throw new Error("binlistapi.herokuapp falló");
             const d = await r.json();
             return {
@@ -55,7 +67,11 @@ app.get('/bin/:bin', async (req, res) => {
 
         // 4. freebinchecker.com
         async () => {
-            const r = await fetch(`https://api.freebinchecker.com/bin/${bin}`);
+            const r = await fetch(`https://api.freebinchecker.com/bin/${bin}`, {
+                headers: {
+                    'User-Agent': 'bin-proxy-render/1.0'
+                }
+            });
             if (!r.ok) throw new Error("freebinchecker.com falló");
             const d = await r.json();
             return {
@@ -67,9 +83,13 @@ app.get('/bin/:bin', async (req, res) => {
             };
         },
 
-        // 5. binbase.io (modo lite)
+        // 5. binbase.io
         async () => {
-            const r = await fetch(`https://binbase.io/api/v1/bank/${bin}`);
+            const r = await fetch(`https://binbase.io/api/v1/bank/${bin}`, {
+                headers: {
+                    'User-Agent': 'bin-proxy-render/1.0'
+                }
+            });
             if (!r.ok) throw new Error("binbase.io falló");
             const d = await r.json();
             return {
@@ -93,7 +113,6 @@ app.get('/bin/:bin', async (req, res) => {
         }
     }
 
-    // Todas fallaron o sin banco válido
     return res.json({
         bank: { name: "Desconocida" },
         scheme: null,
